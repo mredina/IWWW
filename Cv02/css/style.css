@@ -1,0 +1,84 @@
+head{
+
+}
+body{
+    margin: 0;
+}
+#menu{
+    background-color: lightgrey;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px;
+}
+nav a {
+    color: Black;
+    font-size: 30px;
+    margin-left: 25px;
+}
+
+#logo{
+    height: 50px;
+    width: 50px;
+}
+
+/* Uvodni banner */
+#main{
+    text-align: center;
+    background-image: url("../img/main.png");
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.mainTitel{
+    color: white;
+}
+.button{
+    background-color: dimgray;
+    color:white;
+    padding: 20px;
+    width: 200px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: auto;
+    border: 1px solid white;
+}
+
+/*Blog */
+.blogPost{
+    width: 300px;
+    border: 1px dotted lightslategray;
+}
+
+.blogPost > img{
+    width: 300px;
+}
+
+#blogPostList{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.centerContentWrapper{
+    width: 1000px;
+    margin: auto;
+}
+
+
+
+/* Paticka */
+footer {
+    width: 100%;
+    background-color: #333;
+    color: #f2f2f2;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.centerContentWrapper{
+    width: 100%;
+}
+
