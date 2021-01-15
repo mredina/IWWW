@@ -1,0 +1,17 @@
+@media print
+ {
+
+
+
+    header nav a {
+        display: none;
+    }
+    footer{
+        display: none;
+
+    }
+
+    .nezobrazuj{
+      display: none;
+    }
+}
