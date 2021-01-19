@@ -162,4 +162,38 @@ class Authentication
 
         return $users;
     }
+        public function selectProduct($id){
+        $stmt = $this->conn->prepare("SELECT id, img, name, price FROM products WHERE id = :id");
+        $stmt->bindParam(":id", $id);
+
+        $stmt->execute();
+        $result = $stmt->fetch();
+        
+        return array('id' => $result['id'], 'img' => $result['img'], 'name' => $result['name'], 'price' => $result['price']);
+    }
+
+    public function finishOrder($products){
+        $stmt = $this->conn->prepare("INSERT INTO orders(id_user) VALUES(:id)");
+        $stmt->bindParam(":id", $_SESSION['identity']['id']);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            return false;
+        }
+        $lastId = $this->conn->lastInsertId();
+
+        foreach($products as $productId => $qu){
+            $stmt2 = $this->conn->prepare("INSERT INTO ordereditems(id_order, id_product, quantity, pricePerPiece) VALUES(:id, :id_product, :quantity, :pricePerPiece)");
+            $stmt2->bindParam(":id", $lastId);
+            $stmt2->bindParam(":id_product", $productId);
+            $stmt2->bindParam(":quantity", $qu);
+
+            $productToSave = $this->selectProduct($productId);
+
+            $stmt2->bindParam(":pricePerPiece", $productToSave['price']);
+
+            $stmt2->execute();
+        }
+    }
 }
