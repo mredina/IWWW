@@ -11,7 +11,11 @@
                     <li><a href="table.php">Uživatelé</a></li>
                 <?php endif; ?> 
 
+                <li><a href="basket.php">Košík</a></li>
+                <li><a href="orders.php">Moje objednávky</a></li>
+                <li><a href="products.php">Katalog</a></li>
                 <li><a href="logout.php">Odhlášení</a></li>   
+
             <?php endif; ?>
             <?php if( !isset($_SESSION['identity']) || Authentication::getInstance()->isAdmin()): ?>
                 <li><a href="registration.php">Registrace</a></li>
