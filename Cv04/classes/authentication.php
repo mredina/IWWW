@@ -148,4 +148,18 @@ class Authentication
     {
         return self::$identity['role'] === "1" ? true : false;
     }
+    
+    public function selectAllProducts(){
+        $stmt = $this->conn->prepare("SELECT id, img, name, price FROM products");
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        
+        $users = array();
+
+        foreach($results as $result){
+            array_push($users, array('id' => $result['id'], 'img' => $result['img'], 'name' => $result['name'], 'price' => $result['price']));
+        }
+
+        return $users;
+    }
 }
