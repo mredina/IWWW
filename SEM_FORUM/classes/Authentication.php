@@ -1,4 +1,5 @@
 <?php
+
 class Authentication
 {
     private $conn = null;
@@ -13,7 +14,6 @@ class Authentication
         $this->conn = Connection::getConnection();
     }
 
-
     public static function getInstance()
     {
         if (self::$instance == null) {
@@ -22,16 +22,14 @@ class Authentication
         return self::$instance;
     }
 
-
-    public function login($username, $password)
+    public function login($email, $password)
     {
-        $stmt = $this->conn->prepare("SELECT id, username, password, name, surname, role FROM users WHERE username = :username");
-        $stmt->bindParam(":username", $username);
+        $stmt = $this->conn->prepare("SELECT id, email, password, name, surname, role FROM users WHERE email = :email");
+        $stmt->bindParam(":email", $email);
         $stmt->execute();
         $result = $stmt->fetch();
         if (password_verify($password, $result['password'])) {
-
-            $_SESSION['identity'] = array('id' => $result['id'], 'username' => $result['username'], 'name' => $result['name'], 'surname' => $result['surname'], 'role' => $result['role']);
+            $_SESSION['identity'] = array('id' => $result['id'], 'email' => $result['email'], 'name' => $result['name'], 'surname' => $result['surname'], 'role' => $result['role']);
             self::$identity = $_SESSION['identity'];
             return true;
         } else {
@@ -39,12 +37,11 @@ class Authentication
         }
     }
 
-
-    public function register($username, $password, $name, $surname)
+    public function register($email, $password, $name, $surname)
     {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->conn->prepare("INSERT INTO users (username, password, name, surname) VALUES (:username, :password, :name, :surname)");
-        $stmt->bindParam(":username", $username);
+        $stmt = $this->conn->prepare("INSERT INTO users (email, password, name, surname) VALUES (:email, :password, :name, :surname)");
+        $stmt->bindParam(":email", $email);
         $stmt->bindParam(":password", $hashed_password);
         $stmt->bindParam(":name", $name);
         $stmt->bindParam(":surname", $surname);
@@ -54,5 +51,30 @@ class Authentication
             return false;
         }
         return true;
+    }
+
+
+    public function logout()
+    {
+        unset($_SESSION['identity']);
+        self::$identity = null;
+    }
+
+
+    public function hasIdentity()
+    {
+        return self::$identity ? true : false;
+    }
+
+
+    public function getIdentity()
+    {
+        return self::$identity ? self::$identity : null;
+    }
+
+
+    public function isAdmin()
+    {
+        return self::$identity['role'] == 0 ? true : false;
     }
 }
