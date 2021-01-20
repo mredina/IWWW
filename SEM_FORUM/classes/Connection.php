@@ -1,6 +1,5 @@
 <?php
 
-
 class Connection
 {
     private static $instance = null;

@@ -9,6 +9,31 @@ class Thread{
         $this->conn = Connection::getConnection();
     }
 
+    public function getAllThreads($id) {
+        $stmt = $this->conn->prepare("SELECT t.* , u.name AS users_name, u.surname AS users_surname FROM threads t JOIN users u ON u.id = t.userId WHERE t.categoryId = :id ORDER BY t.created DESC");
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $threads = $stmt->fetchAll();
+        $stmt2 = $this->conn->prepare("SELECT c.*, u.name AS user_name, u.surname AS user_surname FROM comments c JOIN threads t ON t.id = c.threadId JOIN users u ON u.id = c.userId WHERE t.categoryId = :id ORDER BY created DESC");
+        $stmt2->bindParam(":id", $id);
+        $stmt2->execute();
+        $comments = $stmt2->fetchAll();
+        foreach ($threads as $key => $thread) {
+          $count = 0;
+          foreach ($comments as $comment) {
+            if ($comment['threadId'] == $thread['id']) {
+              if ($count == 0) {
+                $threads[$key]['last_comment_date'] = $comment['created'];
+                $threads[$key]['last_comment'] = $comment['user_name'] . ' ' . $comment['user_surname'];
+              }
+              $count++;
+            }
+          }
+          $threads[$key]['number_of_comments'] = $count;
+        }
+        return $threads;
+      }
+
    
     public function insertThread($name, $category)
     {
