@@ -5,7 +5,7 @@ if (Authentication::getInstance()->hasIdentity()) {
 }
 $errors = array();
 if (isset($_POST['login'])) {
-    if (empty(trim($_POST['username']))) {
+    if (empty(trim($_POST['email']))) {
         array_push($errors, 'Nebylo zadáno jméno');
     }
     if (empty(trim($_POST['password']))) {
@@ -13,7 +13,7 @@ if (isset($_POST['login'])) {
     }
     if (empty($errors)) {
         // volani funkce login tridy Authentication
-        if (Authentication::getInstance()->login($_POST['username'], $_POST['password'])) {
+        if (Authentication::getInstance()->login($_POST['email'], $_POST['password'])) {
             exit(header('Location: ' . BASE_URL));
         } else {
             array_push($errors, 'Zadané špatné jméno nebo heslo');
@@ -37,7 +37,7 @@ if (!empty($errors)) {
         <form method="post">
             <div class="form-group">
                 <label>Přihlašovací jméno:</label>
-                <input type="text" name="username" placeholder="Login">
+                <input type="text" name="email" placeholder="Login">
             </div>
             <div class="form-group">
                 <label>Heslo:</label>

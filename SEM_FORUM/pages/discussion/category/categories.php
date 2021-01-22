@@ -1,5 +1,5 @@
 <?php
-$discussion = new Discussion();
+$category = new Category();
 $success = '';
 $errors = array();
 if (isset($_SESSION['message'])) {
@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
         array_push($errors, 'Nebyl zadán název');
     }
     if (empty($errors)) {
-        if ($discussion->insertCategory($_POST['category'])) {
+        if ($category->insertCategory($_POST['category'])) {
             $success = 'Kategorie byla úspěšně vytvořena';
         } else {
             array_push($errors, 'Tento název kategorie je již používán');
@@ -24,7 +24,8 @@ if (isset($_POST['submit'])) {
     }
 }
 
-$categories = $discussion->getAllCategories();
+
+$categories = $category->getAllCategories();
 echo '<h2 class="title">Kategorie fóra</h2>';
 echo '<ul class="categories">';
 foreach ($categories as $category) {

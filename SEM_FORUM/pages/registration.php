@@ -52,7 +52,7 @@ if (empty($success)) {
             <form method="post">
                 <div class="form-group">
                     <label>Přihlašovací jméno:</label>
-                    <input type="text" name="login" placeholder="Login">
+                    <input type="email" name="login" placeholder="Login">
                 </div>
                 <div class="form-group">
                     <label>Heslo:</label>

@@ -58,3 +58,186 @@ footer {
     font-size: 35px;
     display: none;
 }
+.error-msg {
+    display: block;
+    color: red;
+    font-weight: bold;
+}
+.success-msg {
+    display: block;
+    color: green;
+    font-weight: bold;
+}
+input[type=submit] {
+    padding: 8px 15px;
+    background: #333;
+    color: #f2f2f2;
+    border: 0 none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+input[type=submit]:hover {
+    background: #727272;
+}
+input[type=text],input[type=email] ,input[type=password] {
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+input[type=text]:focus, input[type=password]:focus {
+    border-color:#333;
+}
+input[type=text]:hover, input[type=password]:hover {
+    border-color:#333;
+}
+label {
+    font-weight: bold;
+}
+textarea {
+    min-width: 99%;
+    max-width: 99%;
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+textarea:focus {
+    border-color: #333;
+}
+textarea:hover {
+    border-color: #333;
+}
+.card {
+    margin: 0 auto;
+    width: 40%;
+}
+.card > .card-title {
+    border-bottom: 1px solid black;
+}
+.card > .card-body {
+    margin-top: 5px;
+}
+.form-group {
+    display: flex;
+    justify-content: space-between;
+}
+.form-submit {
+    margin-top: 5px;
+}
+.form > .form-title {
+    border-bottom: 1px solid black;
+}
+.form > .form-body * {
+    margin: 3px 0;
+}
+.form > .form-body input[type=text] {
+    width: 99%;
+}
+.title {
+    border-bottom: 1px solid black;
+}
+.categories {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.categories li {
+    margin: 10px 0;
+}
+.categories li a {
+    color: #4a4a4a;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+.categories li a:hover {
+    border-bottom: 2px solid;
+}
+.threads {
+    margin: 5px 0;
+    width: 100%;
+    background-color: #4a4a4a;
+}
+.threads_report {
+    margin: 5px 0;
+    width: 100%;
+    background-color: #4a4a4a;
+}
+.threads td:first-child, .threads th:first-child {
+    width: 40%;
+}
+.threads_report td:first-child, .threads th:first-child {
+    width: 5%;
+}
+.threads td, .threads th {
+    padding: 5px;
+    text-align: center;
+}
+.threads_report td, .threads_report th {
+    padding: 5px;
+    text-align: center;
+}
+.threads td {
+    background-color: #ccc;
+}
+.threads_report td {
+    background-color: #ccc;
+}
+.threads th {
+    color: white;
+}
+.threads_report th {
+    color: white;
+}
+.threads a {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #4a4a4a;
+}
+.threads_report a {
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #4a4a4a;
+}
+.threads a:hover {
+    border-bottom: 2px solid;
+}
+.threads_report a:hover {
+    border-bottom: 2px solid;
+}
+.comment table {
+    width: 100%;
+    margin: 15px 0;
+    background-color: #4a4a4a;
+    color: white;
+}
+.comment table td {
+    padding: 5px;
+}
+.comment table .comment-text {
+    background-color: #ccc;
+    color: #4a4a4a;
+}
+.comment table a {
+    color: white;
+    text-decoration: none;
+}
+.comment table a:hover {
+    border-bottom: 2px solid;
+}
+.back {
+    text-decoration: none;
+    font-size: 17px;
+    padding: 5px 15px;
+    background: #333;
+    color: #F3F3F3;
+    display: block;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.back:hover {
+    background: #727272;
+}

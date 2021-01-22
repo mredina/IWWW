@@ -1,8 +1,8 @@
 <h1>Správa uživatelů</h1>
 
 <?php
-$discussion = new Discussion();
-$users = $discussion->getAllUsers();
+$user = new User();
+$users = $user->getAllUsers();
 $success = '';
 $errors = array();
 
@@ -23,7 +23,7 @@ if (!empty($users)) {
     <table class="threads">
         <tr>
             <th>ID</th>
-            <th>Nick</th>
+            <th>E-mail</th>
             <th>Jméno</th>
             <th>Přijmení</th>
 		<th>Smazat</th>
@@ -32,10 +32,10 @@ if (!empty($users)) {
         echo '
             <tr>
                 <td>' . $user['id'].'</td>
-                <td>' . $user['username'].'</td>
+                <td>' . $user['email'].'</td>
                 <td>' . $user['name'] . '</td>
                 <td>' . $user['surname'] .'</td>
-		 <td><a href="' . CURRENT_URL . '&user=' . $user['id'] . '&action=deleteU">Smazat</a></td>
+		 <td><a href="' . CURRENT_URL . '&user=' . $user['id'] . '&action=delete_user">Smazat</a></td>
             </tr>';
     }
     echo '</table>';
@@ -44,9 +44,9 @@ if (!empty($users)) {
 }
 
 if (isset($_GET['action'])) {
-    if ($_GET['action'] == 'deleteU') {
+    if ($_GET['action'] == 'delete_user') {
 
-        require 'deleteU.php';
+        require 'delete_user.php';
 
 
     }

@@ -1,1 +1,1 @@
-<p>Fórum o linuxu</p>
+<h1>Linuxové forum pro každého!</h1>

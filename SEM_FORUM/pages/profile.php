@@ -3,6 +3,7 @@
 if (!Authentication::getInstance()->hasIdentity()) {
     exit(header('Location: ' . BASE_URL . '?page=login'));
 }
+$user = new User();
 $errors = array();
 $success = '';
 if (isset($_POST['login'])) {
@@ -17,7 +18,7 @@ if (isset($_POST['login'])) {
     }
     if (empty($errors)) {
 
-            if (Authentication::getInstance()->updateUser($_POST['login'], $_POST['password'], Authentication::getInstance()->getIdentity()['id'])) {
+            if ($user->updateUser($_POST['login'], $_POST['password'], Authentication::getInstance()->getIdentity()['id'])) {
 
                 $success = 'Změna byla úspěšná';
             }
@@ -44,14 +45,14 @@ echo '<h3 class="success-msg">' . $success . '</h3>';
 
     <div class="card-title">
         <center><?php    echo '<h2> Vaše jméno: ' . Authentication::getInstance()->getIdentity()['name'] . '
-<br> Vaše příjmení: ' . Authentication::getInstance()->getIdentity()['surname'] . ' <br> Váš nickname: ' . Authentication::getInstance()->getIdentity()['username'].' </h2>';?></center>
+<br> Vaše příjmení: ' . Authentication::getInstance()->getIdentity()['surname'] . ' <br> Váš nickname: ' . Authentication::getInstance()->getIdentity()['email'].' </h2>';?></center>
       <br> <h3>Zde můžete provést změnu některých údajů. </h3>
     </div>
     <div class="card-body">
         <form method="post">
             <div class="form-group">
-                <label>Přihlašovací jméno:</label>
-                <input type="text" name="login" placeholder="Login">
+                <label>Přihlašovací e-mail:</label>
+                <input type="email" name="login" placeholder="Login">
             </div>
             <div class="form-group">
                 <label>Heslo:</label>

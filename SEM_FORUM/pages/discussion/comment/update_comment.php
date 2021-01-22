@@ -1,8 +1,8 @@
 <?php
-$discussion = new Discussion();
+$comment = new Comment();
 
-$owner = $discussion->getOwnerOfComment($_GET['comment']);
-if (Authentication::getInstance()->getIdentity()['id'] == $owner['users_id']) {
+$owner = $comment->getOwnerOfComment($_GET['comment']);
+if (Authentication::getInstance()->getIdentity()['id'] == $owner['userId']) {
     $errors = array();
     if (isset($_POST['submit'])) {
         if (empty(trim($_POST['comment']))) {
@@ -10,16 +10,16 @@ if (Authentication::getInstance()->getIdentity()['id'] == $owner['users_id']) {
         }
         if (empty($errors)) {
           
-            if ($discussion->updateComment($_GET['comment'], $_POST['comment'])) {
+            if ($comment->updateComment($_GET['comment'], $_POST['comment'])) {
                 $_SESSION['message'] = 'Komentář byl upraven';
-                exit(header('Location: ' . BASE_URL . '?page=discussion&category=' . $_GET['category'] . '&thread=' . $_GET['thread']));
+                exit(header('Location: ' . BASE_URL . '?page=discussion/discussion&category=' . $_GET['category'] . '&thread=' . $_GET['thread']));
             } else {
                 array_push($errors, 'Při ukládání nastala chyba');
             }
         }
     }
 
-    $comment = $discussion->getCommentById($_GET['comment']);
+    $comment = $comment->getCommentById($_GET['comment']);
     if (!empty($errors)) {
         foreach ($errors as $error) {
             echo '<span class="error-msg">' . $error . '</span>';

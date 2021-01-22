@@ -100,7 +100,7 @@ class Comment{
     }
 
     public function getAllCommentsByUser($id){
-        $stmt = $this->conn->prepare("SELECT * from comments where user_id = :id");
+        $stmt = $this->conn->prepare("SELECT * from comments where userId = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
         return $stmt->fetchAll();

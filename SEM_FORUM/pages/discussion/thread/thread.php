@@ -1,7 +1,8 @@
 <?php
-echo '<span><a href="' . BASE_URL . '?page=discussion&category=' . $_GET['category'] . '" class="back">Zpět na výpis vláken</a></span>';
-$discussion = new Discussion();
-$thread = $discussion->getThreadById($_GET['thread']);
+echo '<span><a href="' . BASE_URL . '?page=discussion/discussion&category=' . $_GET['category'] . '" class="back">Zpět na výpis vláken</a></span>';
+$_thread= new Thread();
+$_comment = new Comment();
+$thread = $_thread->getThreadById($_GET['thread']);
 echo '<h2 class="title">' . $thread['name'] . '</h2>';
 
 if (isset($_SESSION['message'])) {
@@ -17,9 +18,9 @@ if (isset($_POST['submit'])) {
         array_push($errors, 'Nelze vložit prázdný komentář');
     }
     if (empty($errors)) {
-        $prom = $discussion->getAllThreadById($_GET['thread']);
+        $prom = $_thread->getAllThreadById($_GET['thread']);
         if ($prom['locked'] == 0){
-        if ($discussion->insertComment($_POST['comment'], $_GET['thread'])) {
+        if ($_comment->insertComment($_POST['comment'], $_GET['thread'])) {
             $success = 'Komentář byl přidán';
         } else {
             array_push($errors, 'Při vkládání komentáře nastala chyba');
@@ -32,10 +33,16 @@ if (isset($_POST['submit'])) {
     }
 }
 
-$comments = $discussion->getAllComments($_GET['thread']);
+$comments = $_comment->getAllComments($_GET['thread']);
+
+usort($comments, function ($a, $b) {
+    return $b['likes'] <=> $a['likes'];
+});
+
+
 
 foreach ($comments as $comment) {
-$promenna =  $discussion->selectLike(Authentication::getInstance()->getIdentity()['id'],$comment['id']);
+$promenna =  $_comment->selectLike(Authentication::getInstance()->getIdentity()['id'],$comment['id']);
    if ($promenna[0] == 2 || $promenna[0] == 0){
        echo '
     <div class="comment">
@@ -48,12 +55,14 @@ $promenna =  $discussion->selectLike(Authentication::getInstance()->getIdentity(
             </tr>
             <tr>
              <td colspan="2" class="comment-text">' . htmlspecialchars($comment['text']) . '</td>
-                <td colspan="2" class="comment-text">' . htmlspecialchars($comment['pocetLike']) . '</td>
-                <td ><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=nahlasit">Nahlásit</a></td>
-                   <td><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=like">Like</a></td>
+                <td colspan="2" class="comment-text">' . htmlspecialchars($comment['likes']) . '</td>';
+            if ($comment['userId'] != Authentication::getInstance()->getIdentity()['id'] ){
+                echo '<td ><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=nahlasit">Nahlásit</a></td>
+                <td><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=like">Like</a></td>';
+            }             
+            echo '
             </tr>';
-   }
-   else{
+   }else{
 
        echo '
     <div class="comment">
@@ -66,12 +75,15 @@ $promenna =  $discussion->selectLike(Authentication::getInstance()->getIdentity(
             </tr>
             <tr>
              <td colspan="2" class="comment-text">' . htmlspecialchars($comment['text']) . '</td>
-                <td colspan="2" class="comment-text">' . htmlspecialchars($comment['pocetLike']) . '</td>
-                <td ><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=nahlasit">Nahlásit</a></td>
-                   <td><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=like">disLike</a></td>
-            </tr>';
+                <td colspan="2" class="comment-text">' . htmlspecialchars($comment['likes']) . '</td>';
+                if ($comment['userId'] != Authentication::getInstance()->getIdentity()['id'] ){
+                    echo '<td ><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=nahlasit">Nahlásit</a></td>
+                    <td><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=like">DisLike</a></td>';
+                }             
+                echo '
+                </tr>';
    }
-    if (Authentication::getInstance()->getIdentity()['id'] == $comment['users_id']) {
+    if (Authentication::getInstance()->getIdentity()['id'] == $comment['userId']) {
         echo '
         <tr>
             <td><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=delete">Smazat</a></td>

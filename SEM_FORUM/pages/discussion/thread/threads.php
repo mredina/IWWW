@@ -1,6 +1,7 @@
 <?php
 
-$discussion = new Discussion();
+$category = new Category();
+$_thread = new Thread();
 $success = '';
 $errors = array();
 if (isset($_SESSION['message'])) {
@@ -9,9 +10,9 @@ if (isset($_SESSION['message'])) {
 } else {
     $success = '';
 }
-echo '<span><a href="' . BASE_URL . '?page=discussion" class="back">Zpět na výpis kategorií</a></span>';
+echo '<span><a href="' . BASE_URL . '?page=discussion/discussion" class="back">Zpět na výpis kategorií</a></span>';
 
-$category = $discussion->getCategoryById($_GET['category']);
+$category = $category->getCategoryById($_GET['category']);
 echo '<h2 class="title">' . $category['name'] . '</h2>';
 
 
@@ -22,7 +23,7 @@ if (isset($_POST['submit'])) {
         array_push($errors, 'Nebyl zadán název');
     }
     if (empty($errors)) {
-        if ($discussion->insertThread($_POST['thread'], $_GET['category'])) {
+        if ($_thread->insertThread($_POST['thread'], $_GET['category'])) {
             $success = 'Vlákno bylo úspěšně vytvořeno';
         } else {
             array_push($errors, 'Tento název vlákna je již používán');
@@ -30,7 +31,7 @@ if (isset($_POST['submit'])) {
     }
 }
 // vypsani vsech vlaken do tabulky
-$threads = $discussion->getAllThreads($_GET['category']);
+$threads = $_thread->getAllThreads($_GET['category']);
 if (!empty($errors)) {
     foreach ($errors as $error) {
         echo '<span class="error-msg">' . $error . '</span>';
@@ -52,7 +53,7 @@ if (!empty($threads)) {
                      
         </tr>';
     foreach ($threads as $thread) {
-        $prom = $discussion->getOwnerOfThread($thread['id']);
+        $prom = $_thread->getOwnerOfThread($thread['id']);
 
 
         if (Authentication::getInstance()->isAdmin()) {
@@ -65,7 +66,7 @@ if (!empty($threads)) {
                 <td>' . $thread['last_comment'] . '<br>' . $thread['last_comment_date'] . '</td>
                 <td>' . $thread['number_of_comments'] . '</td>
                 <td><a href="' . CURRENT_URL . '&thread=' . $thread['id'] . '&action=uzavrit">Uzavřít</a></td> 
-                 <td><a href="' . CURRENT_URL . '&thread=' . $thread['id'] . '&action=deleteT">Smazat</a></td>
+                 <td><a href="' . CURRENT_URL . '&thread=' . $thread['id'] . '&action=delete_thread">Smazat</a></td>
             </tr>';
                  }
                  else
@@ -78,7 +79,7 @@ if (!empty($threads)) {
                 <td>' . $thread['last_comment'] . '<br>' . $thread['last_comment_date'] . '</td>
                 <td>' . $thread['number_of_comments'] . '</td>
                 <td><a href="' . CURRENT_URL . '&thread=' . $thread['id'] . '&action=uzavrit">Odemknout</a></td>
-                         <td><a href="' . CURRENT_URL . '&thread=' . $thread['id'] . '&action=deleteT">Smazat</a></td>
+                         <td><a href="' . CURRENT_URL . '&thread=' . $thread['id'] . '&action=delete_thread">Smazat</a></td>
             </tr>';
 
                  }

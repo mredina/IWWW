@@ -1,10 +1,11 @@
-<h1>Nahlášené komentáře</h1>
+<h1>Komentáře uživatele</h1>
 
 <?php
 
 
-$discussion = new Discussion();
-$comments = $discussion->getAllReportedComments();
+$comment = new Comment();
+$id = $comment->getCommentById($_POST['comment']);
+$comments = $comment->getAllCommentsByUser($_GET['id']);
 $success = '';
 $errors = array();
 if (isset($_SESSION['message'])) {
@@ -35,29 +36,29 @@ if (!empty($comments)) {
         echo '
             <tr>
                 <td>' . $comment['id'].'</td>
-                <td>' . $comment['username'].'</td>
+                <td>' . $comment['email'].'</td>
                 <td>' . $comment['reason'] . '</td>
                 <td>' . $comment['text'] . '</td>
                 <td>' . $comment['datetime'] .'</td>
-		 <td class="nezobrazuj"><a href="' . CURRENT_URL . '&comment=' . $comment['commentId'] . '&action=deleteComment">Smazat</a></td>
-		  <td class="nezobrazuj"><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=deleteR">Smazat</a></td>
-		  <td class="nezobrazuj"><a href="' . BASE_URL.'?page=discussion&category='.$comment['threadId'].'&thread='.$comment['categoryId'].'">Zobrazit</a></td>
+		 <td class="nezobrazuj"><a href="' . CURRENT_URL . '&comment=' . $comment['commentId'] . '&action=delete_comment">Smazat</a></td>
+		  <td class="nezobrazuj"><a href="' . CURRENT_URL . '&comment=' . $comment['id'] . '&action=delete_report">Smazat</a></td>
+		  <td class="nezobrazuj"><a href="' . BASE_URL.'?page=discussion/discussion&category='.$comment['threadId'].'&thread='.$comment['categoryId'].'">Zobrazit</a></td>
             </tr>';
     }
     echo '</table>';
 } else {
-    echo '<h3>Zatím zde nejsou žádné nahlášené komentáře</h3>';
+    echo '<h3>Zatím zde nejsou žádné komentáře</h3>';
 }
 if (isset($_GET['action'])) {
-    if ($_GET['action'] == 'deleteR') {
+    if ($_GET['action'] == 'delete_report') {
 
-        require 'deleteR.php';
+        require './pages/admin/delete_report.php';
 
 
     }
-    elseif ($_GET['action'] == 'deleteComment'){
+    elseif ($_GET['action'] == 'delete_comment'){
 
-        require 'deleteComment.php';
+        require 'delete_comment.php';
     }
 }
 ?>

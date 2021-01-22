@@ -2,7 +2,6 @@
 ob_start();
 session_start();
 require 'config/config.php';
-
 function __autoload($className)
 {
     if (file_exists('./classes/' . $className . '.php')) {
@@ -11,6 +10,7 @@ function __autoload($className)
     }
     return false;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,28 +23,31 @@ function __autoload($className)
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style/layout.css">
     <link rel="stylesheet" type="text/css" href="style/responsive.css">
-    <title>Linux/Unix forum</title>
+    <link rel="stylesheet" type="text/css" href="style/print.css">
+    <title>Linux forum</title>
 </head>
 
 <body>
-<?php require 'layout/header.php'; ?>
-<main>
-    <?php
-    if (!isset($_GET['page'])) {
-        require 'pages/home.php';
-    } else {
-        $page = './pages/' . $_GET['page'] . '.php';
-        if (file_exists($page)) {
-            require $page;
+    <?php require 'layout/header.php'; ?>
+    <main>
+        <?php
+        if (!isset($_GET['page'])) {
+            require 'pages/home.php';
         } else {
-            require 'pages/page_not_found.php';
+            $page = './pages/' . $_GET['page'] . '.php';
+            if (file_exists($page)) {
+                require $page;
+            } else {
+                require 'pages/page_not_found.php';
+            }
         }
-    }
-    ?>
-</main>
-<?php require 'layout/footer.php'; ?>
-<script src="js/app.js"></script>
+        ?>
+    </main>
+    <?php require 'layout/footer.php'; ?>
+    <script src="js/app.js"></script>
+    
+    
+    
 </body>
 
 </html>
-

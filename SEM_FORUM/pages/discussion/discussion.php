@@ -7,57 +7,58 @@ if (!Authentication::getInstance()->hasIdentity()) {
 else {
     if (isset($_GET['category'])) {
         if (isset($_GET['action'])) {
-            if ($_GET['action'] == 'deleteK') {
-                require 'discussion/deleteK.php';
+            if ($_GET['action'] == 'delete_category') {
+                require 'category/delete_category.php';
             }
-            else if ($_GET['action'] == 'deleteT') {
-                require 'discussion/deleteT.php';
+            else if ($_GET['action'] == 'delete_thread') {
+                require 'thread/delete_thread.php';
             }
             else if ($_GET['action'] == 'uzavrit') {
-                require 'discussion/uzavritThread.php';
+                require 'thread/close_thread.php';
             }
         }
         if (isset($_GET['thread'])) {
             if (isset($_GET['comment'])) {
                 if (isset($_GET['action'])) {
                     if ($_GET['action'] == 'delete') {
-                        require 'discussion/comment/delete.php';
+                        require 'comment/delete_comment.php';
                     }
 
                     else if ($_GET['action'] == 'like') {
-                        require 'discussion/comment/like.php';
+                        require 'comment/like_comment.php';
                     }
 
                     else if ($_GET['action'] == 'zobrazit') {
-                        require 'discussion/comment/zobrazit.php';
+                        //require 'comment/show_comment.php';
+                        echo "V přípravě";
                     }
                     else if ($_GET['action'] == 'update') {
-                        require 'discussion/comment/update.php';
+                        require 'comment/update_comment.php';
                     }
                     else if ($_GET['action'] == 'nahlasit') {
-                        require 'discussion/comment/nahlasit.php';
+                        require 'comment/report_comment.php';
                     }
                     else {
 
-                        require 'discussion/thread.php';
+                        require 'thread/thread.php';
 
                     }
                 } else {
-                    require 'discussion/thread.php';
+                    require 'thread/thread.php';
                 }
 
             } else {
 
-                    require 'discussion/thread.php';
+                    require 'thread/thread.php';
 
 
             }
         } else {
 
-            require 'discussion/threads.php';
+            require 'thread/threads.php';
         }
     } else {
-        require 'discussion/categories.php';
+        require 'category/categories.php';
     }
 }
 
