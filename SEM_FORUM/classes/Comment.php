@@ -136,6 +136,8 @@ class Comment{
 
     public function updateComment($id, $text)
     {
+        $id = filter_var($id);
+        $text = filter_var($text);
         $stmt = $this->conn->prepare("UPDATE comments SET text = :text WHERE id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->bindParam(":text", $text);

@@ -20,9 +20,9 @@ class ReportedComment{
     public function insertReason($idComment,$text,$textComment)
     {
 
+        $text = filter_var($text, FILTER_SANITIZE_STRING);
+        $textComment = filter_var($textComment, FILTER_SANITIZE_STRING);
         $user_name = Authentication::getInstance()->getIdentity()['email'];
-
-
         $stmt = $this->conn->prepare("INSERT INTO reportedComments (commentId,email, reason,text) VALUES (:commentId, :email, :reason,:textComment)");
         $stmt->bindParam(":commentId", $idComment);
         $stmt->bindParam(":email", $user_name);

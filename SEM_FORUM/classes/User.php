@@ -11,6 +11,8 @@ class User{
 
     public function updateUser($email, $password,$id)
     {
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $password = filter_var($password, FILTER_SANITIZE_STRING);
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->conn->prepare("UPDATE users SET email = :email, password=:password WHERE id = :id");
         $stmt->bindParam(":email", $email);

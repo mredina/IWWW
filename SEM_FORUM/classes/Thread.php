@@ -37,6 +37,8 @@ class Thread{
    
     public function insertThread($name, $category)
     {
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+        $category = filter_var($category, FILTER_SANITIZE_STRING);
         $locked = 0;
         $user = Authentication::getInstance()->getIdentity()['id'];
         $stmt = $this->conn->prepare("INSERT INTO threads (name, categoryId, userId,locked) VALUES (:name, :category, :user,:locked)");

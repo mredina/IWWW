@@ -18,6 +18,7 @@ class Category{
 
     public function insertCategory($name)
     {
+        $name = filter_var($name, FITE);
         $stmt = $this->conn->prepare("INSERT INTO categories (name) VALUES (:name)");
         $stmt->bindParam(":name", $name);
         try {

@@ -24,6 +24,8 @@ class Authentication
 
     public function login($email, $password)
     {
+        $email = filter_var($email);
+        $password = filter_var($password);
         $stmt = $this->conn->prepare("SELECT id, email, password, name, surname, role FROM users WHERE email = :email");
         $stmt->bindParam(":email", $email);
         $stmt->execute();
@@ -39,6 +41,10 @@ class Authentication
 
     public function register($email, $password, $name, $surname)
     {
+        $email = filter_var($email);
+        $password = filter_var($password);
+        $name = filter_var($name);
+        $surname = filter_var($surname);
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $this->conn->prepare("INSERT INTO users (email, password, name, surname) VALUES (:email, :password, :name, :surname)");
         $stmt->bindParam(":email", $email);
