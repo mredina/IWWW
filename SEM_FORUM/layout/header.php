@@ -13,6 +13,7 @@
             <a href="<?= BASE_URL . "?page=logout" ?>">Logout</a>
             <a href="<?= BASE_URL . "?page=admin/user" ?>">Uživatelé</a>
             <a href="<?= BASE_URL . "?page=admin/report" ?>">Nahlášené komentáře</a>
+            <a href="<?= BASE_URL . "?page=json" ?>">Import/Export</a>
         <?php else : ?>
             <a href="<?= BASE_URL . "?page=login" ?>">Login</a>
             <a href="<?= BASE_URL . "?page=registration" ?>">Registrace</a>
