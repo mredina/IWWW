@@ -5,15 +5,6 @@
 $categoryDb = new Category();
 if(isset($_GET['action']))
 {
-    if($_GET['action'] == 'import'){
-        $json = file_get_contents('category.json');
-        $allCat = json_decode($json,true);
-        foreach($allCat as $cat){
-            $categoryDb->insertCategory($cat['name']);
-        }
-        
-        echo 'importovano';
-    }
 
     if($_GET['action'] == 'export'){
         $allCat = $categoryDb->getAllCategories();
@@ -23,9 +14,15 @@ if(isset($_GET['action']))
         header('Content-disposition: attachment; filename=file.json');
         header('Content-type: application/json');
         echo $json;
+        $_SESSION['msg'] = 'Exportováno';
         die();  
     }
 }
+if(!empty($_SESSION['msg'])){
+    echo $_SESSION['msg'];
+    unset($_SESSION['msg']);
+}
+
 echo '
 <table class="threads">
 <tr>
@@ -33,10 +30,15 @@ echo '
     <th></th>
 </tr>';
 echo '
-<td><a href="' . BASE_URL . '?page=json&action=import"> Import</a></td>
+
+<td><form action="./pages/upload.php" method="post" enctype="multipart/form-data">
+Importovat:<br>
+<input type="file" name="file"><br>
+<input type="submit" value="Importovat" name="submit">
+</form></td>
+
 <td><a href="' . BASE_URL . '?page=json&action=export"> Export</a></td>
 ';
 echo '</table>';
-
 ?>
 
