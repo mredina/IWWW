@@ -11,6 +11,7 @@ if(isset($_GET['action']))
         foreach($allCat as $cat){
             $categoryDb->insertCategory($cat['name']);
         }
+
         echo 'importovano';
     }
 
@@ -18,6 +19,9 @@ if(isset($_GET['action']))
         $allCat = $categoryDb->getAllCategories();
         $json = json_encode($allCat);
         $tmp = file_put_contents('category.json', $json);
+        header('Content-disposition: attachment; filename=file.json');
+        header('Content-type: application/json');
+        echo $json;
         echo "exportováno";
     }
 
